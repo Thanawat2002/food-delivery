@@ -7,6 +7,7 @@ import {
   RestaurantsDocument,
 } from './schemas/restaurants.schemas';
 import { Model } from 'mongoose';
+import { ApiResponse } from 'src/common/dto/api-response.dto';
 
 @Injectable()
 export class RestaurantsService {
@@ -46,7 +47,7 @@ export class RestaurantsService {
       if (!result) {
         throw new NotFoundException('id not found');
       } else {
-        return { message: 'Deleted successful' };
+        return new ApiResponse(200, 'Restaurant deleted successfully', result);
       }
     } catch (error) {
       throw error;

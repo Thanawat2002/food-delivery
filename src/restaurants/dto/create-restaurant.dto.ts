@@ -1,12 +1,43 @@
-import { IsObject, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsArray,
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+
+export class OrderItemDto {
+  @IsNotEmpty()
+  @IsString()
+  name: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  price: number;
+}
 
 export class CreateRestaurantDto {
+  @IsNotEmpty()
   @IsString()
-  readonly name: string;
+  name: string;
+
+  @IsNotEmpty()
   @IsString()
-  readonly email: string;
+  phone: string;
+
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
+  @IsNotEmpty()
   @IsString()
-  readonly address: string;
-  @IsObject()
-  readonly orderItem: object[];
+  address: string;
+
+  @IsNotEmpty()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => OrderItemDto)
+  orderItems: OrderItemDto[];
 }
